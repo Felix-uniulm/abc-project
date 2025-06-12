@@ -1,0 +1,90 @@
+@ <stdio.hdr>
+@ "lexer.hdr"
+
+// --lexer implementation
+
+global ch: int;
+global currentPos: Pos = {1,0};
+//global updateVal: bool;
+//global lengthVal: size_t;
+
+fn isDigit(ch: int): bool
+{
+    return ch >= '0' && ch <= '9';
+}
+
+fn isLetter(ch: int): bool
+{
+    return ch >= 'A' && ch <= 'Z' ||  ch >= 'a' && ch <= 'z';
+}
+
+fn nextCh(updateVal: bool)
+{
+    static lengthVal: size_t;
+
+    if(updateVal){
+	assert(lengthVal < sizeof(token.val) / sizeof(token.val[0]));
+	token.val[lengthVal++] = ch;
+	token.val[lengthVal] = 0; //Null-Terminator für array
+    } else {
+	lengthVal = 0;
+    }
+    ch = getchar();
+    if (ch == '\n'){
+	++currentPos.row;
+	currentPos.col = 0;
+    } else {
+	++currentPos.col;
+    }
+}
+
+global token: Token;
+
+fn getToken(): TokenKind
+{
+   // updateVal = false;
+   // lengthVal = 0;
+    while (ch == 0 || ch == ' ' || ch == '\n' || ch == '\t' ){
+        nextCh(false);
+    }
+    token.pos = currentPos;
+   // updateVal = true;
+
+    if ( isDigit(ch)){
+        while (isDigit(ch)) {
+            nextCh(true);
+        }
+        return token.kind = DECIMAL_LITERAL;
+    }else if (ch == '+') {
+        nextCh(true);
+        return token.kind = PLUS;
+    }else if (ch == EOF){    
+        return token.kind = EOI;
+    }else if (ch == '*'){  
+	nextCh(true);
+        return token.kind = ASTERISK;    
+    }else if (isLetter(ch)){  
+	while (isLetter(ch) || isDigit(ch)) {
+	    nextCh(true);
+	}
+	return token.kind = IDENTIFIER;
+    }else {
+    nextCh(true);
+    return token.kind = BAD_TOKEN;
+    }
+}
+fn tokenKindStr(token: TokenKind): -> char
+{
+    switch (token) {
+        case BAD_TOKEN: return "BAD_TOKEN";
+        case EOI: return "EOI";
+        case DECIMAL_LITERAL: return "DECIMAL_LITERAL";
+        case ASTERISK: return "ASTERISK";
+        case PLUS: return "PLUS";
+	case IDENTIFIER: return "IDENTIFIER";
+        default: return "??";
+    }
+}            
+//-- simple test
+
+
