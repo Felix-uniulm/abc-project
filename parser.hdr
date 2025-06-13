@@ -2,4 +2,4 @@
 @ "lexer.hdr"
 
 
-extern fn parseExpr(): int
+extern fn parseExpr(): int;

@@ -2,4 +2,4 @@
 @ "lexer.hdr"
 
 //Was macht die Funktion?
-extern fn getReg(): int
+extern fn getReg(): int;
