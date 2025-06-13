@@ -5,7 +5,9 @@ enum TokenKind
     DECIMAL_LITERAL,
     PLUS,
     ASTERISK,
-    IDENTIFIER
+    IDENTIFIER,
+    LPAREN,
+    RPAREN,
 };
 
 type TokenVal: array[12] of char;
