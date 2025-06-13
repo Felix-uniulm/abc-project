@@ -1,0 +1,5 @@
+@ <stdio.hdr>
+@ "lexer.hdr"
+
+//Was macht die Funktion?
+extern fn getReg(): int

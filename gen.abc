@@ -1,0 +1,9 @@
+@ <stdio.hdr>
+@ "lexer.hdr"
+@ "gen.hdr"
+
+fn getReg(): int
+{
+    static reg: int = 1;
+    return reg++;
+}
