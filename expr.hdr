@@ -1,3 +1,5 @@
+@ "string.hdr"
+
 enum ExprKind
 {
     EXPR_ADD,
@@ -10,12 +12,12 @@ struct Expr
 {
     kind:	    ExprKind;
     left, right:    -> Expr;
-    decimal:	    u64;
+    decimal:	    string;
 };
 
 //constructors (caller becomes owner)
 extern fn createBinaryExpr(kind: ExprKind, left: ->Expr, right: ->Expr): ->Expr;
-extern fn createIntegerExpr(val: u64): ->Expr;
+extern fn createIntegerExpr(val: string): ->Expr;
 
 //destructor
 extern fn releaseExpr(expr: ->Expr);

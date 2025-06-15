@@ -1,5 +1,6 @@
 @ <stdio.hdr>
 @ "expr.hdr"
+@ "string.hdr"
 
 fn main()
 {
@@ -7,9 +8,9 @@ fn main()
 
 	expr = createBinaryExpr(EXPR_ADD,
 				createBinaryExpr(EXPR_MUL,
-						createIntegerExpr(2),
-						createIntegerExpr(3)),
-				createIntegerExpr(4));
+						createIntegerExpr((string)"2"),
+						createIntegerExpr((string)"3")),
+				createIntegerExpr((string)"4"));
 	printExprTree(expr);
 	printf("\n");
 
