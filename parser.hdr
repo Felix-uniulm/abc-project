@@ -1,5 +1,6 @@
 @ <stdio.hdr>
 @ "lexer.hdr"
+@ "expr.hdr"
 
 
-extern fn parseExpr(): int;
+extern fn parseExpr(): -> Expr;

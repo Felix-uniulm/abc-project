@@ -24,3 +24,5 @@ extern fn releaseExpr(expr: ->Expr);
 
 //methods
 extern fn printExprTree(expr: ->Expr);
+
+extern fn parseExpr(): -> Expr;

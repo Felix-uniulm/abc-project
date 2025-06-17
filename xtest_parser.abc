@@ -6,10 +6,10 @@
 fn main()
 {
     getToken();
-    local reg: int = parseExpr();
-    if (reg < 0) {
-        printf("syntax error\n");
-        assert(0);
+    local expr: -> Expr = parseExpr();
+    if (expr && token.kind == EOI){
+	printExprTree(expr);
+    } else {
+	printf("synrax error\n");
     }
-    printf("\thalt %%%d\n", reg);
 }

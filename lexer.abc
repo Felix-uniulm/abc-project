@@ -18,10 +18,11 @@ fn isLetter(ch: int): bool
     return ch >= 'A' && ch <= 'Z' ||  ch >= 'a' && ch <= 'z';
 }
 
-fn nextCh(updateVal: bool)
-{
-    static lengthVal: size_t;
+global lengthVal: size_t;
+global updateVal: bool;
 
+fn nextCh()
+{
     if(updateVal){
 	assert(lengthVal < sizeof(token.val) / sizeof(token.val[0]));
 	token.val[lengthVal++] = ch;
@@ -42,35 +43,35 @@ global token: Token;
 
 fn getToken(): TokenKind
 {
-   // updateVal = false;
-   // lengthVal = 0;
+    updateVal = false;
+    lengthVal = 0;
     while (ch == 0 || ch == ' ' || ch == '\n' || ch == '\t' ){
-        nextCh(false);
+        nextCh();
     }
     token.pos = currentPos;
-   // updateVal = true;
+    updateVal = true;
 
-    if ( isDigit(ch)){
+    if (isDigit(ch)) {
         while (isDigit(ch)) {
-            nextCh(true);
+            nextCh();
         }
         return token.kind = DECIMAL_LITERAL;
-    }else if (ch == '+') {
-        nextCh(true);
+    } else if (ch == '+') {
+        nextCh();
         return token.kind = PLUS;
-    }else if (ch == EOF){    
+    } else if (ch == EOF) {    
         return token.kind = EOI;
-    }else if (ch == '*'){  
-	nextCh(true);
+    } else if (ch == '*') {  
+	nextCh();
         return token.kind = ASTERISK;    
-    }else if (isLetter(ch)){  
+    } else if (isLetter(ch)) {  
 	while (isLetter(ch) || isDigit(ch)) {
-	    nextCh(true);
+	    nextCh();
 	}
 	return token.kind = IDENTIFIER;
-    }else {
-    nextCh(true);
-    return token.kind = BAD_TOKEN;
+    } else {
+	nextCh();
+	return token.kind = BAD_TOKEN;
     }
 }
 fn tokenKindStr(token: TokenKind): -> char
