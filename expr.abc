@@ -30,7 +30,7 @@ fn releaseExpr(expr: -> Expr)
         return;
     }
 
-    if (expr->kind == EXPR_ADD || expr->kind == EXPR_MUL) {
+    if (expr-> kind >= EXPR_BINARY && expr->kind <= EXPR_BINARY_END) {
         releaseExpr(expr->left);
         releaseExpr(expr->right);
     }
@@ -43,11 +43,13 @@ fn printExprTree(expr: ->Expr)
 {
     if (expr->kind == EXPR_INTEGER){
 	printf("[%s]", expr->decimal);
-    } else if (expr-> kind >= EXPR_ADD && expr->kind <= EXPR_MUL) {
+    } else if (expr-> kind >= EXPR_BINARY && expr->kind <= EXPR_BINARY_END) {
 	printf(" [ ");
 	switch (expr->kind){
 	    case EXPR_ADD: printf("+");break;
 	    case EXPR_MUL: printf("*");break;
+	    case EXPR_DIV: printf("/");break;
+	    case EXPR_SUB: printf("-");break;
 	    default: assert(0);
 	}
 	printExprTree(expr->left);

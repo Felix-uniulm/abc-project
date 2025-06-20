@@ -6,8 +6,8 @@ fn main()
 {
 	local expr: -> Expr;
 
-	expr = createBinaryExpr(EXPR_ADD,
-				createBinaryExpr(EXPR_MUL,
+	expr = createBinaryExpr(EXPR_SUB,
+				createBinaryExpr(EXPR_DIV,
 						createIntegerExpr((string)"2"),
 						createIntegerExpr((string)"3")),
 				createIntegerExpr((string)"4"));

@@ -10,6 +10,8 @@ enum TokenKind
     IDENTIFIER,
     LPAREN,
     RPAREN,
+    MINUS,
+    SLASH,
 };
 
 type TokenVal: string;

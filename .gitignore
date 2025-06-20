@@ -1,0 +1,8 @@
+	dep/
+	obj/
+	simple/
+	xtest_expr
+	xtest_lexer
+	xtest_parser
+	xtest_parser.o
+

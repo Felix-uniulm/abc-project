@@ -13,7 +13,8 @@ fn parseExpr(): -> Expr
     if (left == nullptr){
 	return nullptr;
     }
-    while (token.kind == PLUS) {
+    while (token.kind == PLUS || token.kind == MINUS) {
+	local tok: Token = token;
         getToken();
         local right: -> Expr = parseTerm();
         if (right == nullptr) {
@@ -21,7 +22,12 @@ fn parseExpr(): -> Expr
                    token.pos.row, token.pos.col);
             assert(0);
         }
-        left = createBinaryExpr(EXPR_ADD, left, right);;
+        if (tok.kind == PLUS){
+	    left = createBinaryExpr(EXPR_ADD, left, right);
+	} else if (tok.kind == MINUS){
+	    left = createBinaryExpr(EXPR_SUB, left, right);
+	}
+
     }
     return left;
 }
@@ -32,7 +38,8 @@ fn parseTerm(): -> Expr
     if (left == nullptr) {
         return nullptr;
     }
-    while (token.kind == ASTERISK) {
+    while (token.kind == ASTERISK || token.kind == SLASH) {
+	local tok: Token = token;
         getToken();
         local right: -> Expr = parseFactor();
         if (right == nullptr) {
@@ -40,7 +47,11 @@ fn parseTerm(): -> Expr
                    token.pos.row, token.pos.col);
             assert(0);
         }
-        left = createBinaryExpr(EXPR_MUL, left, right);
+	if (tok.kind == ASTERISK){
+	    left = createBinaryExpr(EXPR_MUL, left, right);
+	} else if (tok.kind == SLASH){
+	    left = createBinaryExpr(EXPR_DIV, left, right);
+	}
     }
     return left;
 }
