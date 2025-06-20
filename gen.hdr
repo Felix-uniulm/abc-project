@@ -1,5 +1,15 @@
-@ <stdio.hdr>
-@ "lexer.hdr"
+type GenReg: unsigned;
 
-//Was macht die Funktion?
-extern fn getReg(): int;
+extern fn genReleaseReg(reg: GenReg);
+
+extern fn genConstant(val: -> char): GenReg;
+
+enum GenInstr
+{
+    GEN_ADD,
+    GEN_SUB,
+    GEN_MUL,
+    GEN_DIV,
+};
+
+extern fn genInstr(instr: GenInstr, left: GenReg, right: GenReg): GenReg;

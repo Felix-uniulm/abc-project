@@ -7,6 +7,19 @@
 fn parseTerm(): -> Expr;
 fn parseFactor(): -> Expr;
 
+fn exprKindFromToken(token: Token): ExprKind
+{
+    switch (token.kind) {
+	case ASTERISK: return EXPR_MUL;
+	case SLASH: return EXPR_DIV;
+	case PLUS: return EXPR_ADD;
+	case MINUS: return EXPR_SUB;
+	default: 
+	    assert(0 && "internal error: exprKindFromToken");
+	    return 0;
+    }
+}
+
 fn parseExpr(): -> Expr
 {
     local left: -> Expr = parseTerm();
@@ -22,11 +35,8 @@ fn parseExpr(): -> Expr
                    token.pos.row, token.pos.col);
             assert(0);
         }
-        if (tok.kind == PLUS){
-	    left = createBinaryExpr(EXPR_ADD, left, right);
-	} else if (tok.kind == MINUS){
-	    left = createBinaryExpr(EXPR_SUB, left, right);
-	}
+	local exprKind: ExprKind = exprKindFromToken(tok);
+	left = createBinaryExpr(exprKind, left, right);
 
     }
     return left;
@@ -47,11 +57,8 @@ fn parseTerm(): -> Expr
                    token.pos.row, token.pos.col);
             assert(0);
         }
-	if (tok.kind == ASTERISK){
-	    left = createBinaryExpr(EXPR_MUL, left, right);
-	} else if (tok.kind == SLASH){
-	    left = createBinaryExpr(EXPR_DIV, left, right);
-	}
+	local exprKind: ExprKind = exprKindFromToken(tok);
+	left = createBinaryExpr(exprKind, left, right);
     }
     return left;
 }
