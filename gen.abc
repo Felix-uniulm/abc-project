@@ -1,9 +1,43 @@
 @ <stdio.hdr>
-@ "lexer.hdr"
 @ "gen.hdr"
 
-fn getReg(): int
+global usedReg: array[16] of bool;
+
+fn getReg(): GenReg
 {
-    static reg: int = 1;
-    return reg++;
+    for (local r: GenReg = 1; r < sizeof(usedReg)/sizeof(usedReg[0]); ++r) {
+	if (!usedReg[r]) {
+	    usedReg[r] = true;
+	    return r;
+	}
+    }
+    assert(0 && "getReg: out of registers!\n");
+    return 0;
+}
+
+fn genReleaseReg(reg: GenReg)
+{
+    assert(usedReg[reg]);
+    usedReg[reg] = false;
+}
+
+fn genConstant(val: -> char): GenReg
+{
+    local reg: GenReg = getReg();
+    printf("\tload\t%s,\t%%%d\n", val, reg);
+    return reg;
+}
+
+fn genInstr(op: GenInstr, r1: GenReg, r2: GenReg): GenReg
+{   
+    local r3: GenReg = getReg();
+    local Op: -> char = "??";
+    switch (op){
+	case GEN_ADD: Op = "add";break;
+	case GEN_SUB: Op = "sub";break;
+	case GEN_MUL: Op = "mul";break;
+	case GEN_DIV: Op = "div";break;
+    }
+    printf("\t%s\t%%%d,\t%%%d,\t%%%d\n", Op, r1, r2, r3);
+    return r3;
 }

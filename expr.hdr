@@ -1,4 +1,5 @@
 @ "string.hdr"
+@ "gen.hdr"
 
 enum ExprKind
 {
@@ -30,5 +31,5 @@ extern fn releaseExpr(expr: ->Expr);
 
 //methods
 extern fn printExprTree(expr: ->Expr);
-
+extern fn loadExpr(expr: ->Expr): GenReg;
 extern fn parseExpr(): -> Expr;

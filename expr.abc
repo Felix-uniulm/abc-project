@@ -2,6 +2,8 @@
 @ "expr.hdr"
 @ <stdlib.hdr>
 @ "string.hdr"
+@ "gen.hdr"
+
 
 fn createBinaryExpr(kind: ExprKind, left: ->Expr, right: ->Expr): ->Expr
 {
@@ -58,3 +60,24 @@ fn printExprTree(expr: ->Expr)
     }
 }
 
+
+fn loadExpr(expr: ->Expr): GenReg
+{
+	if (expr-> kind >= EXPR_PRIMARY && expr->kind <= EXPR_PRIMARY_END) {
+	    return genConstant(expr -> decimal);
+	} else if (expr-> kind >= EXPR_BINARY && expr->kind <= EXPR_BINARY_END) {
+	    local left: GenReg = loadExpr(expr -> left);
+	    local right: GenReg = loadExpr(expr -> right);
+	    local instr: GenInstr;
+	    switch (expr -> kind){
+		case EXPR_ADD: instr = GEN_ADD; break;
+		case EXPR_MUL: instr = GEN_MUL; break;
+		case EXPR_DIV: instr = GEN_DIV; break;
+		case EXPR_SUB: instr = GEN_SUB; break;
+		default: assert(0);
+	    }
+	    return genInstr(instr, left, right);
+	}
+	assert(0 && "loadExpr: not all cases handled!");
+	return genConstant("0");
+}
