@@ -16,6 +16,15 @@ R_R_R       (OP u 8) (z u 4) (y u 4) (x u 4)
 :   add %x, %y, %z
     ulm_add64(ulm_regVal(x), ulm_regVal(y), z);
 
+0x14 R_R_R
+:   sub %x, %y, %z
+ulm_sub64(ulm_regval(x), ulmregVal(y), z);
+
 0x17 R_R_R
 :   mul %x, %y, %z
     ulm_mul64(ulm_regVal(x), ulm_regVal(y), z);
+
+0x18 R_R_R
+:   div %x, %y, %z
+    ulm_idiv64(ulm_regVal(x), ulm_regVal(y), z);
+

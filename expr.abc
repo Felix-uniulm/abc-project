@@ -76,7 +76,10 @@ fn loadExpr(expr: ->Expr): GenReg
 		case EXPR_SUB: instr = GEN_SUB; break;
 		default: assert(0);
 	    }
-	    return genInstr(instr, left, right);
+	    genReleaseReg(left);
+	    genReleaseReg(right);
+	    local res := genInstr(instr, left, right);
+	    return res;
 	}
 	assert(0 && "loadExpr: not all cases handled!");
 	return genConstant("0");

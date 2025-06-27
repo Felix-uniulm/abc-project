@@ -13,3 +13,4 @@ enum GenInstr
 };
 
 extern fn genInstr(instr: GenInstr, left: GenReg, right: GenReg): GenReg;
+extern fn genHalt(exitCode: GenReg);

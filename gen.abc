@@ -41,3 +41,9 @@ fn genInstr(op: GenInstr, r1: GenReg, r2: GenReg): GenReg
     printf("\t%s\t%%%d,\t%%%d,\t%%%d\n", Op, r1, r2, r3);
     return r3;
 }
+
+fn genHalt(exitCode: GenReg)
+{
+    printf("\thalt\t%%%d\n", exitCode);
+}
+
