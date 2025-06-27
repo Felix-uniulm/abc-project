@@ -1,0 +1,18 @@
+@ <stdio.hdr>
+@ "lexer.hdr"
+@ "gen.hdr"
+@ "parser.hdr"
+
+fn main()
+{
+    getToken();
+    local expr: -> Expr = parseExpr();
+    if (expr && token.kind == EOI){
+	local exitCode: GenReg; 
+	exitCode = loadExpr(expr);
+	genHalt(exitCode);
+    } else {
+	printf("synrax error\n");
+    }
+}
+
